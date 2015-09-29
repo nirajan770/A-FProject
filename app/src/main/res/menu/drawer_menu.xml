@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/first_group_items"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/shop"
+            android:checked="true"
+            android:title="@string/drawer_item_shop" />
+
+        <item
+            android:id="@+id/store_locator"
+            android:checked="false"
+            android:title="@string/drawer_item_store_locator" />
+
+        <item
+            android:id="@+id/help"
+            android:checked="false"
+            android:title="@string/drawer_item_help" />
+        <item
+            android:id="@+id/privacy_terms"
+            android:checked="false"
+            android:title="@string/drawer_item_privacy_terms" />
+    </group>
+
+</menu>
