@@ -2,6 +2,7 @@ package com.abercrombiefitch.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,8 @@ import com.abercrombiefitch.ui.base.BaseActivity;
 import butterknife.Bind;
 
 public class WebViewAcitivity extends BaseActivity {
+
+    public static final String KEY_URL_TO_LOAD = "URL";
 
     @Bind(R.id.webView)
     WebView wb;
@@ -32,7 +35,7 @@ public class WebViewAcitivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            targetURL = intent.getStringExtra("url");
+            targetURL = intent.getStringExtra(KEY_URL_TO_LOAD);
             if(targetURL != null && !TextUtils.isEmpty(targetURL)) {
                 wb.getSettings().setLoadsImagesAutomatically(true);
                 wb.getSettings().setJavaScriptEnabled(true);

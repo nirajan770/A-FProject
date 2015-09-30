@@ -36,6 +36,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
@@ -67,6 +68,8 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.4'
     androidTestCompile 'com.android.support.test:rules:0.4'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.1'
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
         // Necessary to avoid version conflicts
         exclude group: 'com.android.support', module: 'appcompat'
@@ -74,8 +77,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
-    testCompile('org.robolectric:robolectric:3.0') {
-        exclude group: 'commons-logging', module: 'commons-logging'
-        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
-    }
+    testCompile('org.robolectric:robolectric:3.0')
+    testCompile('org.robolectric:shadows-play-services:3.0')
+    testCompile 'org.robolectric:shadows-support-v4:3.0'
 }

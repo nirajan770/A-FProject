@@ -63,6 +63,7 @@ public class BaseActivity extends AppCompatActivity {
 
         // initialize the Shared Preferences
         PrefUtils.init(this);
+
         if (savedInstanceState != null) {
             mCurrentSelectedId = savedInstanceState.getInt(STATE_SELECTED_ID);
             Log.d(TAG, "current selection index: "+ mCurrentSelectedId);
@@ -149,7 +150,7 @@ public class BaseActivity extends AppCompatActivity {
         // Check if the drawer welcome preference is true or false
         if(!PrefUtils.isDrawerWelcomeDone(this) && !mFromSavedInstanceState ){
             mDrawerLayout.openDrawer(GravityCompat.START);
-            PrefUtils.markDrawerWelcomeDone(this);
+            PrefUtils.markDrawerWelcomeDone(this, true);
         }
 
         mDrawerLayout.post(new Runnable() {

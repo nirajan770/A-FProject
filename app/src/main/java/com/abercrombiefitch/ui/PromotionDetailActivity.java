@@ -28,6 +28,8 @@ import butterknife.OnClick;
 
 public class PromotionDetailActivity extends BaseActivity {
 
+    public static final String KEY_INTENT_PROMOTION_ITEM = "PROMOTION";
+
     @Bind(R.id.detail_item_image)
     ImageView itemImage;
 
@@ -57,51 +59,54 @@ public class PromotionDetailActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null) {
             try {
-                Promotion passedItem = new ObjectMapper().readValue(intent.getStringExtra("promotion"), Promotion.class);
-                Picasso.with(itemImage.getContext())
-                        .load(passedItem.getImage())                        
-                        //.into(itemImage);
-                        .into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                itemImage.setImageBitmap(bitmap);
-                                Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                                    @Override
-                                    public void onGenerated(Palette palette) {
-                                        Palette.Swatch vibrant = palette.getVibrantSwatch();
-                                        promoButton.setBackgroundColor(vibrant.getRgb());
-                                    }
-                                });
-                            }
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-                            }
+                Promotion passedItem = new ObjectMapper().readValue(intent.getStringExtra(KEY_INTENT_PROMOTION_ITEM), Promotion.class);
+                // check for null
+                if (passedItem != null) {
+                    Picasso.with(itemImage.getContext())
+                            .load(passedItem.getImage())
+                                    //.into(itemImage);
+                            .into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    itemImage.setImageBitmap(bitmap);
+                                    Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                        @Override
+                                        public void onGenerated(Palette palette) {
+                                            Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                            promoButton.setBackgroundColor(vibrant.getRgb());
+                                        }
+                                    });
+                                }
+                                @Override
+                                public void onBitmapFailed(Drawable errorDrawable) {
+                                }
 
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            }
-                        });
-                // Set Toolbar title
-                title = passedItem.getTitle();
-                if (title != null && !TextUtils.isEmpty(title)) {
-                    getSupportActionBar().setTitle(passedItem.getTitle());
-                }
-                // Set the description
-                description = passedItem.getDescription();
-                if(description != null && !TextUtils.isEmpty(description)) {
-                    itemDescription.setText(description);
-                }
-                // Set the button attributes
-                com.abercrombiefitch.api.model.Button mButton = passedItem.getButton().get(0);
-                buttonTitle = mButton.getTitle();
-                buttonTarget = mButton.getTarget();
-                promoButton.setText(buttonTitle);
-                // Set the footer
-                footer = passedItem.getFooter();
-                if(footer != null && !TextUtils.isEmpty(footer)) {
-                    itemFooter.setText(Html.fromHtml(footer).toString());
-                } else {
-                    itemFooter.setVisibility(View.GONE);
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                }
+                            });
+                    // Set Toolbar title
+                    title = passedItem.getTitle();
+                    if (title != null && !TextUtils.isEmpty(title)) {
+                        getSupportActionBar().setTitle(passedItem.getTitle());
+                    }
+                    // Set the description
+                    description = passedItem.getDescription();
+                    if(description != null && !TextUtils.isEmpty(description)) {
+                        itemDescription.setText(description);
+                    }
+                    // Set the button attributes
+                    com.abercrombiefitch.api.model.Button mButton = passedItem.getButton().get(0);
+                    buttonTitle = mButton.getTitle();
+                    buttonTarget = mButton.getTarget();
+                    promoButton.setText(buttonTitle);
+                    // Set the footer
+                    footer = passedItem.getFooter();
+                    if(footer != null && !TextUtils.isEmpty(footer)) {
+                        itemFooter.setText(Html.fromHtml(footer).toString());
+                    } else {
+                        itemFooter.setVisibility(View.GONE);
+                    }
                 }
 
             } catch (IOException e) {
@@ -114,7 +119,7 @@ public class PromotionDetailActivity extends BaseActivity {
     @OnClick(R.id.promo_button)
     public void onClick(Button button) {
         Intent i = new Intent(this, WebViewAcitivity.class);
-        i.putExtra("url", buttonTarget);
+        i.putExtra(WebViewAcitivity.KEY_URL_TO_LOAD, buttonTarget);
         startActivity(i);
     }
 

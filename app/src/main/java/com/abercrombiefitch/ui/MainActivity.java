@@ -20,7 +20,6 @@ import com.abercrombiefitch.api.model.ResponseData;
 import com.abercrombiefitch.ui.base.BaseActivity;
 import com.abercrombiefitch.util.Log;
 
-import com.abercrombiefitch.util.NetworkUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -65,7 +64,7 @@ public class MainActivity extends BaseActivity implements Observer<ResponseData>
                 Promotion clickedPromotion = mCardAdapter.getItem(position);
                 try {
                     Intent intent = new Intent(MainActivity.this, PromotionDetailActivity.class);
-                    intent.putExtra("promotion", new ObjectMapper().writeValueAsString(clickedPromotion));
+                    intent.putExtra(PromotionDetailActivity.KEY_INTENT_PROMOTION_ITEM, new ObjectMapper().writeValueAsString(clickedPromotion));
 
                     String transitionName = getString(R.string.transition_name_image);
 

@@ -29,9 +29,9 @@ public class PrefUtils {
         return mPref.getBoolean(PREF_DRAWER_WELCOME, false);
     }
 
-    public static void markDrawerWelcomeDone(final Context context){
+    public static void markDrawerWelcomeDone(final Context context, boolean flag){
         SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(context);
-        mPref.edit().putBoolean(PREF_DRAWER_WELCOME, true).commit();
+        mPref.edit().putBoolean(PREF_DRAWER_WELCOME, flag).commit();
     }
 
 }
