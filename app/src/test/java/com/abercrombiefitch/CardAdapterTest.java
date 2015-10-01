@@ -1,71 +1,74 @@
 package com.abercrombiefitch;
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.abercrombiefitch.api.model.Button;
 import com.abercrombiefitch.api.model.Promotion;
+import com.abercrombiefitch.helper.DataHelper;
 import com.abercrombiefitch.ui.CardAdapter;
-import com.abercrombiefitch.ui.MainActivity;
-import com.abercrombiefitch.util.PrefUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.Assert.assertThat;
+import static org.assertj.android.api.Assertions.assertThat;
+import static org.assertj.android.recyclerview.v7.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class CardAdapterTest extends TestBase {
 
-    private static final String ITEM_TITLE = "Title";
-    private static final String ITEM_DESCRIPTION = "Description";
-    private static final String ITEM_URL = "http://anf.scene7.com/is/image/anf/anf-US-20150629-app-women-shorts";
-    private static final String ITEM_FOOTER = "Footer";
-    private static final String BUTTON_TARGET = "https://m.abercrombie.com";
-    private static final String BUTTON_TITLE = "TEST BUTTON";
-
-    private MainActivity mainActivity;
-
+    private Context context;
     private CardAdapter cardAdapter;
     private Promotion item;
+    private RecyclerView recyclerView;
 
     @Before
     public void setup() {
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
+        context = RuntimeEnvironment.application;
         cardAdapter = new CardAdapter();
-        cardAdapter.addData(createData());
+        cardAdapter.addData(DataHelper.getModelData());
+        item = cardAdapter.getItem(0);
     }
 
-    /**
-     * Creates sample data item
-     */
-    private Promotion createData() {
-        item = new Promotion();
-        item.setTitle(ITEM_TITLE);
-        item.setDescription(ITEM_DESCRIPTION);
-        item.setImage(ITEM_URL);
-        item.setFooter(ITEM_FOOTER);
-        Button button = new Button();
-        button.setTitle(BUTTON_TITLE);
-        button.setTarget(BUTTON_TARGET);
-        List<Button> list = new ArrayList<>();
-        list.add(button);
-        // set the list of buttons
-        item.setButton(list);
+    @Test
+    public void testGetItemTitle() {
+        assertEquals(DataHelper.ITEM_TITLE + " was expected", item.getTitle(), cardAdapter.getItem(0).getTitle());
+    }
 
-        return item;
+    @Test
+    public void testGetItemId() {
+        assertEquals("Wrong ID", 0, cardAdapter.getItemId(0));
     }
 
     @Test
     public void testItemCount() {
-        int count = cardAdapter.getItemCount();
-
+        assertEquals("Incorrect item count", 1, cardAdapter.getItemCount());
     }
+
+    @Test
+    public void testViewHolderViews() {
+        recyclerView = new RecyclerView(context);
+        //View v = LayoutInflater.from(context).inflate(R.layout.recycler_card_item, null);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        CardAdapter.ViewHolder viewHolder = cardAdapter.onCreateViewHolder(recyclerView, 0);
+        cardAdapter.onBindViewHolder(viewHolder, 0);
+
+        // JUnit Assertions
+        assertEquals(View.VISIBLE, viewHolder.getItemTitle().getVisibility());
+
+        // Assert-J
+        assertThat(viewHolder.getItemTitle()).isVisible().containsText(DataHelper.ITEM_TITLE);
+        assertThat(cardAdapter).hasItemCount(1);
+    }
+
+
 }

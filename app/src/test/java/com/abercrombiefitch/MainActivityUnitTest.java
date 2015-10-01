@@ -1,9 +1,15 @@
 package com.abercrombiefitch;
 
 
+import android.content.Intent;
+
 import com.abercrombiefitch.api.AbercrombieAPI;
 import com.abercrombiefitch.api.model.ResponseData;
+import com.abercrombiefitch.helper.DataHelper;
 import com.abercrombiefitch.ui.MainActivity;
+import com.abercrombiefitch.ui.PromotionDetailActivity;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -15,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.List;
@@ -46,8 +53,5 @@ public class MainActivityUnitTest extends TestBase{
     public void checkActivityNotNull() throws Exception {
         assertNotNull(mainActivity);
     }
-
-
-
 
 }

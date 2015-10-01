@@ -2,6 +2,7 @@ package com.abercrombiefitch.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -115,12 +116,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder>{
         return mItems.get(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public final class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @Bind(R.id.card_item_image)
         ImageView itemImage;
         @Bind(R.id.card_item_title)
         TextView itemTitle;
 
+        @VisibleForTesting
+        public ImageView getItemImage() {
+            return itemImage;
+        }
+        @VisibleForTesting
+        public TextView getItemTitle() {
+            return itemTitle;
+        }
 
         public ViewHolder(View itemView) {
             super(itemView);
